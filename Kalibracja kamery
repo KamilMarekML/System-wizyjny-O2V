@@ -1,0 +1,54 @@
+// Program ma za zadanie obliczenie wartosci współczynników a i b funkcji liniowej przechodzacej przez dwa punkty
+// Wskazane powyzej punkty biorą swoje współżędne z osi x która jest wielkością w mm reprezentowaną przez średnicę normalizowaną
+//Z koleji z osi y jest to wartość pixeli zliczanch przez system wizyjny, uklad taki podatny jest na utrate stabilnosci poprzez ingeręcję 
+//mechaniczna czy też elektroniczną, aplikacja ta powstała w celu ułatwinia kalibracji pomiaru, poprzez wpisanie uzyskanych wartosci
+//pixeli jak i rozmiaru srednic normalizowanych uzywanych do kalibracji, latwo uzyskujemy wartosci wspolczynnikow a i b funkcji liniowej 
+//ktora wprowadzamy do srodowiska programistycznego i uzyskujemy dokladny rzewczywisty pomiar badanego obiektu
+
+#include <iostream>
+
+using namespace std;
+
+float slope(float IloscPixeliSrednicaMala, float SrednicaMala, float IloscPixeliSrednicaDuza, float SrednicaDuza)
+{
+	return (SrednicaDuza - SrednicaMala) / (IloscPixeliSrednicaDuza - IloscPixeliSrednicaMala);
+}
+
+float a;
+float b;
+float x;
+float y;
+
+int main()
+{
+	float IloscPixeliSrednicaMala;
+	cout << "Pobierz ilosc pixeli odczytanych przez kamere dla malej srednicy" << endl;
+	cin >> IloscPixeliSrednicaMala;
+
+	float IloscPixeliSrednicaDuza;
+	cout << "Pobierz ilosc pixeli odczytanych przez kamere dla duzej srednicy" << endl;
+	cin >> IloscPixeliSrednicaDuza;
+
+	float SrednicaMala;
+	cout << "Podaj srednice kalibracji rozmiar maly" << endl;
+	cin >> SrednicaMala;
+
+	float SrednicaDuza;
+	cout << "Podaj srednice kalibracji rozmiar duzy" << endl;
+	cin >> SrednicaDuza;
+
+	cout << "Wspolczynnik kierunkowy funkcji wynosi a= "<< slope(IloscPixeliSrednicaMala, SrednicaMala, IloscPixeliSrednicaDuza, SrednicaDuza) << endl;
+	
+	a = slope(IloscPixeliSrednicaMala, SrednicaMala, IloscPixeliSrednicaDuza, SrednicaDuza);
+	b = SrednicaMala - (a * IloscPixeliSrednicaMala);
+	cout << "Wartość wyrazu wolnego wynosi b= "<< b << endl;
+
+	cout << "Podaj testowa ilosc pixeli przekazana przez system wizyjny" << endl;
+	cin >> x;
+
+	y = (a * x) + b;
+	cout << "Wartość w mm dla podanej ilosci pixeli przy obliczonych wspolczynnikach: " << y << endl;
+
+return 0;
+}
+
